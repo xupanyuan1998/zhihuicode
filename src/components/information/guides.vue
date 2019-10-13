@@ -22,7 +22,7 @@
         </div>
         <h1>办事指南</h1>
         <ul class="addlist">
-          <li v-for="(item,index) in newsList"><b>[{{item.departmentName}}]</b><router-link tag="a" :to="{path:'/information/guides/guidesDetali',query:{id:item.departmentId}}">{{item.title}}</router-link><p><strong></strong><i></i><em></em><img src="../../../static/images/29.png" alt=""></p> <span>{{clearFen(item.publishTime)}}</span></li>
+          <li v-for="(item,index) in newsList"><b>[{{item.departmentName}}]</b><router-link tag="a" :to="{path:'/information/guides/guidesDetali',query:{id:item.departmentId}}">{{item.title}}</router-link><p><strong></strong><img src="../../../static/images/29.png" alt=""></p> <span>{{clearFen(item.publishTime)}}</span></li>
         </ul>
         <div class="page">
           <!--        分页组件-->

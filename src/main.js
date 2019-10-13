@@ -17,7 +17,8 @@ import Qs from 'qs'
 /*
 * 配置axios*/
 Vue.prototype.axios = axios.create({
-  baseURL:'http://192.168.0.110:9001',
+  baseURL:'http://118.31.247.144:8087',//http://118.31.247.144:8087
+  // http://192.168.0.110:9001
   timeout: 30000,
   // withCredentials: true,
   // headers: {'Content-Type': 'application/x-www-form-urlencoded',"X-Requested-With": "XMLHttpRequest" },

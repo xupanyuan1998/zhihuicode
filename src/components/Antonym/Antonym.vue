@@ -10,7 +10,7 @@
     </div>
     <div class="warp">
       <div class="left">
-        <h3 v-for="(item,idx) in menu" :class="menuSelect==idx?'select':''" @click="clectmenu(idx)">{{item}}</h3>
+        <h3 v-for="(item,idx) in menu"  :key="idx" :class="menuSelect==idx?'select':''" @click="clectmenu(idx)">{{item}}</h3>
       </div>
       <div class="right" v-if="menuSelect==0">
         <h2>铜陵市民营企业服务项目在线查询平台</h2>
@@ -19,16 +19,7 @@
             <span>办理部门:</span>
           </div>
           <ul class="bu_r">
-            <li class="selec">税务</li>
-            <li>公积金</li>
-            <li>公积金</li>
-            <li>公积金</li>
-            <li>公积金</li>
-            <li>公积金</li>
-            <li>公积金</li>
-            <li>公积金</li>
-            <li>公积金</li>
-            <li>公积金</li>
+            <li v-for="(item,idx) in departmentVoList" :key="idx" :class="{'selec':item.active}" @click="bumen(item)">{{item.deptName}}</li>
           </ul>
         </div>
         <div class="bu">
@@ -482,20 +473,55 @@
                 menu:['网上办事','在线审批'],//左侧菜单
                 menuSelect:0,
                 show:false,
-                showPageNo:1,
+                showPageNo:8,
                 currentPage:1,
-                pageTotal: 50,//总的页数
+                pageTotal: '',//总的页数
                 pageConfig: {
-                    pageSize: 10,     //一页的数据条数
-                    total: 500,         //总的数据条数
-                }
+                    pageSize: '',     //一页的数据条数
+                    total: '',         //总的数据条数
+                },
+                industrylist:'',
+                scalelist:'',
+                regionlist:'',
+                departmentVoList:'',
             }
         },
         components:{
             headNav,
             footerNav
         },
+        created(){
+            this.axios.post('/web/onlinework/index',{companyType:'',current:1,departmentId:'',regionId:'',serviceId:'',size:20,title:''}).then(({data})=>{
+                console.log(data);
+                this.industrylist=this.addActive(data.industrylist);
+
+                this.scalelist=data.scalelist;
+                this.regionlist=data.regionlist;
+                this.departmentVoList=this.addActive(data.departmentVoList);
+                console.log(this.departmentVoList);
+                this.pageTotal=data.onLineWorkpage.pages;
+                this.currentPage=data.onLineWorkpage.current;
+                this. pageConfig.pageSize=data.onLineWorkpage.size;
+                this. pageConfig.total=data.onLineWorkpage.total;
+            })
+        },
         methods:{
+            //选择部门
+            bumen(index){
+                var _this=this;
+                console.log(index);
+                if(index.active==false){
+                    this.$nextTick(function () {
+                        this.departmentVoList.forEach(function (index) {
+                            _this.$set(index,'active',false);
+                        });
+                        this.$set(index,'active',true);
+                    });
+                }else if(index.active==true){
+                    this.$set(index,'active',false);
+                }
+
+            },
             clectmenu(idx){
                 this.menuSelect=idx;
             },
@@ -523,7 +549,14 @@
             },
             changeCurrentPage(i){
                 this.currentPage = i;
-            }
+            },
+            //添加active
+            addActive(arr){
+                for (var i=0;i<arr.length;i++){
+                    arr[i].active=false;
+                }
+                return arr
+            },
         }
     }
 </script>

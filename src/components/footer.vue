@@ -36,6 +36,7 @@
 <style scoped lang="less">
 .bottom{
   width: 100%;
+  background:rgba(243,243,243,1);
   .slider{
     width: 100%;
     height:5px;

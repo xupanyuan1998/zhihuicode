@@ -11,8 +11,8 @@
       <div class="warp">
         <h2>新闻资讯</h2>
         <div class="serch">
-          <input type="text" placeholder="请输入关键字">
-          <button>搜索</button>
+          <input type="text" placeholder="请输入关键字" v-model="serch">
+          <button @click="serchas">搜索</button>
         </div>
         <ul>
           <li v-for="(item,idx) in newsList" :key="idx"><b></b> <router-link :to="{path:'/newslist/newsdetali',query:{id:item.newsId}}" tag="a">{{item.title}}</router-link> <span>{{clearFen(item.addtime)}}</span></li>
@@ -78,27 +78,31 @@
                     pageSize: '',     //一页的数据条数
                     total: '',         //总的数据条数
                 },
-                newsList:[]
+                newsList:[],
+                serch:''
             }
         },
         created(){
-            this.getnewList(15,this.currentPage);
+            this.getnewList(20,this.currentPage,this.serch);
         },
         methods:{
+            serchas(){
+                this.getnewList(20,this.currentPage,this.serch);
+            },
             prePage(){
                 this.currentPage -= 1;
-                this.getnewList(20,this.currentPage);
+                this.getnewList(20,this.currentPage,this.serch);
             },
             nextPage(){
                 this.currentPage += 1;
-                this.getnewList(20,this.currentPage);
+                this.getnewList(20,this.currentPage,this.serch);
             },
             changeCurrentPage(i){
                 this.currentPage = i;
-                this.getnewList(20,this.currentPage);
+                this.getnewList(20,this.currentPage,this.serch);
             },
-            getnewList(a,b){
-                this.axios.post('/web/newnotice/newlist',{title:' ',news_id:' ',size:a,current:b}).then(({data})=>{
+            getnewList(a,b,c){
+                this.axios.post('/web/newnotice/newlist',{title:c,categoryId:' ',size:a,current:b}).then(({data})=>{
                     console.log(data)
                     this.pageTotal=data.data.pages;
                     this.currentPage=data.data.current;

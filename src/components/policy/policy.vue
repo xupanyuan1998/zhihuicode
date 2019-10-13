@@ -17,7 +17,9 @@
             <input type="text" placeholder="请输入关键字">
             <button @click="serchsAs">搜索</button>
           </div>
-          <h1>通知公告</h1>
+          <h1 v-if="left_show==0">通知公告</h1>
+          <h1 v-if="left_show==1">行政公示</h1>
+          <h1 v-if="left_show==2">行业规范</h1>
           <ul class="addlist">
             <li v-for="(item,idx) in newsList" :key="idx"><b></b><router-link tag="a" :to="{path:'/policy/policydetali',query:{id:item.noticeid}}">{{item.title}}</router-link><span>{{clearFen(item.addTime)}}</span></li>
           </ul>
@@ -92,19 +94,19 @@
         },
         methods:{
             serchsAs(){
-
+                this.getnewList(20,1,this.serch,this.categoryId);
             },
             prePage(){
                 this.currentPage -= 1;
-                this.getnewList(20,this.currentPage);
+                this.getnewList(20,1,this.serch,this.categoryId);
             },
             nextPage(){
                 this.currentPage += 1;
-                this.getnewList(20,this.currentPage);
+                this.getnewList(20,1,this.serch,this.categoryId);
             },
             changeCurrentPage(i){
                 this.currentPage = i;
-                this.getnewList(20,this.currentPage);
+                this.getnewList(20,1,this.serch,this.categoryId);
             },
             getnewList(a,b,c,d){
                 this.axios.post('/web/newnotice/noticelist',{title:c,categoryId:d,size:a,current:b}).then(({data})=>{
@@ -119,6 +121,8 @@
             },
             showslect(i){
                 this.left_show=i;
+                this.categoryId=i+1;
+                this.getnewList(20,1,this.serch,this.categoryId);
             },
             clearFen(i){
                 return i.substring(0,i.indexOf(' '))

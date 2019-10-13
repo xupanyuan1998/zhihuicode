@@ -88,23 +88,27 @@
                 offset: new AMap.Pixel(0, -31),
                 content:""
             });
-           this.marker = new AMap.Marker({
-               iconStyle: '//webapi.amap.com/theme/v1.3/markers/b/mark_r.png',
-                position:  [104.747402,31.46131],
-                zIndex: 101,
-                map:this.map
-            });
-            this.marker.setMap(this.map);
-            this.marker.on('click', function(e){
-                console.log(that.infoWindow);
-                that.infoWindow.setContent("<ul><li>sadgfsg</li></ul>");
-                that.infoWindow.open(that.map, e.lnglat);
-            });
+         // let   arr=[{j:113.65912903759764,w:34.74606634973564},{j:113.60273827526854,w:34.79126106664183},{j:113.60488404248045,w:113.60488404248045}];
+         //    for(var i=0; i<arr.length;i++){
+         //        let arr1=[arr[i].j,arr[i].w];
+         //
+         //        that.marker = new AMap.Marker({
+         //            iconStyle: '//webapi.amap.com/theme/v1.3/markers/b/mark_r.png',
+         //            position:  arr1,
+         //            zIndex: 101,
+         //            map:that.map
+         //        });
+         //        that.marker.on('click', function(e){
+         //            console.log(that.infoWindow);
+         //            that.infoWindow.setContent("<ul><li>sadgfsg</li></ul>");
+         //            that.infoWindow.open(that.map, e.lnglat);
+         //        });
+         //        that.marker.setMap(that.map);
+         //    }
         },
         methods: {
             //進入全屏
             launchFullscreen(element) {
-                console.log(element);
                 //此方法不可以在異步任務中執行，否則火狐無法全屏
                 if (element.requestFullscreen) {
                     element.requestFullscreen();
@@ -122,7 +126,32 @@
             },
             select(i){
                 this.cla=i;
+                let arr=[{j:113.65912903759764,w:34.74606634973564},{j:113.60273827526854,w:34.79126106664183},{j:113.611194,w:34.801869}];
+                this.addCoordinates(arr)
             },
+            //添加坐标点
+            addCoordinates(arr){
+                var that=this;
+                for(var i=0; i<arr.length;i++){
+                    let arr1=[arr[i].j,arr[i].w];
+                    console.log(arr1);
+                    that.marker = new AMap.Marker({
+                        iconStyle: '//webapi.amap.com/theme/v1.3/markers/b/mark_r.png',
+                        position:  arr1,
+                        zIndex: 101,
+                        map:that.map
+                    });
+                    that.marker.on('click', function(e){
+                        console.log(that.infoWindow);
+                        that.infoWindow.setContent("<ul><li>sadgfsg</li></ul>");
+                        that.infoWindow.open(that.map, e.lnglat);
+                    });
+                    that.marker.setMap(that.map);
+                }
+
+
+
+    },
             //退出全屏
             exitFullscreen() {
                 if (document.exitFullscreen) {

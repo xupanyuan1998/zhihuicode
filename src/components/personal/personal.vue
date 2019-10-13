@@ -5,57 +5,13 @@
     </div>
     <div class="warp">
       <div class="left">
-        <div class="userimg">
-          <div class="he_top">
-           <div class="ni">
-             <img src="../../../static/images/30.png" alt="">
-             <p><span>您好! 张三</span><b>[法人]</b></p>
-             <strong>13245653563</strong>
-           </div>
-            <i>铜陵市蓝天科技有限公司</i>
-          </div>
-          <div class="list">
-            <div class="option">
-              <p><img src="../../../static/images/31.png" alt=""></p>
-              <span>我的订阅</span>
-            </div>
-            <div class="option">
-              <p><img src="../../../static/images/32.png" alt=""></p>
-              <span>我的收藏</span>
-            </div>
-            <div class="option">
-              <p><img src="../../../static/images/33.png" alt=""></p>
-              <span>系统消息</span>
-            </div>
-          </div>
-        </div>
-        <div class="leftL">
-          <div class="online">
-            <h4>在线办理</h4>
-            <ul>
-              <li><img src="../../../static/images/34.png" alt=""><span class="zai">在线工单</span></li>
-              <li><img src="../../../static/images/35.png" alt=""><span>任务检测</span></li>
-              <li><img src="../../../static/images/36.png" alt=""><span>在线申报</span></li>
-            </ul>
-          </div>
-          <div class="online">
-            <h4>企业服务</h4>
-            <ul>
-              <li><img src="../../../static/images/37.png" alt=""><span>产品管理</span></li>
-              <li><img src="../../../static/images/38.png" alt=""><span>供需发布</span></li>
-              <li><img src="../../../static/images/39.png" alt=""><span>企业资质</span></li>
-              <li><img src="../../../static/images/40.png" alt=""><span>查看微空间</span></li>
-            </ul>
-          </div>
-          <div class="online">
-            <h4>个人信息</h4>
-            <ul>
-              <li><img src="../../../static/images/41.png" alt=""><span>身份认证</span></li>
-              <li><img src="../../../static/images/42.png" alt=""><span>修改密码</span></li>
-            </ul>
-          </div>
-        </div>
+        <div class="headerimg"><img src="../../../static/images/30.png" alt=""></div>
       </div>
+      <p class="fa"><b>您好！王建</b><span>【法人】</span></p>
+      <h5>铜陵市******有限公司</h5>
+      <ul>
+        <li><img src="" alt=""><span></span></li>
+      </ul>
       <div class="right">
         <div class="right_t">
           <span>id</span>
@@ -102,174 +58,21 @@
 <style scoped lang="less">
   .warp{
     width: 1200px;
-    margin: 20px auto;
+    margin: 15px auto;
+    height: 941px;
     overflow: hidden;
     .left{
       float: left;
-      margin-right: 20px;
-      width:266px;
-      .userimg{
-        width:264px;
-        height:254px;
-        margin-bottom: 10px;
-        border:1px solid rgba(214,214,214,1);
-        .he_top{
-          height: 136px;
-          border-bottom: 1px dashed rgba(214,214,214,1);
-         .ni{
-           padding: 22px 10px 0 20px;
-           height: 72px;
-           width: 234px;
-           img{
-             display: block;
-             float: left;
-             width: 72px;
-             height: 72px;
-           }
-           p{
-             width:150px ;
-             margin-left: 12px;
-             float: left;
-             margin-top: 12px;
-             height: 27px;
-             line-height: 27px;
-             overflow: hidden;
-             span{
-              display: block;
-               float: left;
-               font-size:14px;
-               font-weight:400;
-               color:rgba(69,69,69,1);
-             }
-             b{
-               display: block;
-               float: left;
-               font-size:14px;
-               font-weight:400;
-               color:rgba(69,69,69,1);
-                margin-left: 10px;
-             }
-           }
-           strong{
-             display: block;
-             float: left;
-             height: 26px;
-             line-height: 26px;
-             width:87px;
-             font-size:14px;
-             font-weight:400;
-             color:rgba(69,69,69,1);
-             margin-left: 12px;
-           }
-         }
-          i{
-            display: block;
-            margin-left: 44px;
-            width: 200px;
-            height:42px ;
-            line-height: 42px;
-            overflow: hidden;
-            font-size:14px;
-            font-weight:400;
-            color:rgba(69,69,69,1);
-          }
-        }
-        .list{
-          height: 94px;
-          width: 240px;
-          padding: 24px 12px 0 12px;
-          .option{
-            width: 56px;
-            height: 94px;
-            float: left;
-            margin-right: 36px;
-            span{
-              display: block;
-              width: 56px;
-              text-align: center;
-              height: 50px;
-              line-height: 50px;
-              font-size:14px;
-              font-weight:400;
-              color:rgba(69,69,69,1);
-            }
-            p{
-              margin: 0 auto;
-              width: 43px;
-              height: 43px;
-              border-radius: 50%;
-              background:#7BC9BD;
-              display: flex;
-              align-items: center; /*定义body的元素垂直居中*/
-              justify-content: center; /*定义body的里的元素水平居中*/
-            }
-          }
-          .option:last-child{
-            margin-right: 0;
-            p{
-              background:  #5CB0EC ;
-            }
-          }
-          .option:first-child{
-            p{
-              background:#B284B5;
-            }
-          }
-        }
-      }
-      .leftL{
-        width: 264px;
-        border:1px solid rgba(214,214,214,1);
-        border-top: none;
-        .online{
-          width: 264px;
-          h4{
-            width:240px;
-            height:49px;
-            padding: 0 12px;
-            line-height: 49px;
-            background:rgba(245,245,245,1);
-            font-size:18px;
-            font-weight:400;
-            color:rgba(69,68,68,1);
-            border:1px solid rgba(214,214,214,1);
-            border-left: none;
-            border-right: none;
-          }
-          ul{
-            padding: 0 50px 0 70px;
-            width: 144px;
-            li{
-              height: 34px;
-              display: block;
-              margin-top: 18px;
-              img{
-                vertical-align: middle;
-              }
-              span{
-                margin-left: 17px;
-                line-height: 34px;
-                display: inline-block;
-                height: 34px;
-                font-size:18px;
-                font-weight:400;
-                color:  #454444 ;
-              }
-              span.zai{
-                color:rgba(102,168,158,1);
-              }
-            }
-            li:last-child{
-              margin-bottom: 16px;
-            }
-          }
-        }
-      }
+      margin: 5px 15px 5px;
+      width:264px;
+      height:926px;
+      border: 1px solid #d7d7d7;
+      box-shadow: 0 0 10px rgba(0,0,0,0.16);
     }
     .right{
       position: relative;
       float: left;
-      width:862px;
+      width:852px;
       height: 928px;
       padding-left: 50px;
       border:1px solid rgba(217,217,217,1);

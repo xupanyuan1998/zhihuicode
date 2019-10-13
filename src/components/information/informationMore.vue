@@ -5,39 +5,19 @@
     </div>
     <div class="warp">
       <div class="left">
-        <h3 class="select">本市政策</h3>
-        <h3>本省政策</h3>
-        <h3>中央政策</h3>
+        <h3 v-for="(item,idx) in leftlist" :class="leftShow==idx?'select':''" @click="cleft(idx)">{{item}}</h3>
       </div>
       <div class="right">
         <div class="serch">
-          <input type="text" placeholder="请输入关键字">
-          <button>搜索</button>
+          <input type="text" placeholder="请输入关键字" v-model=" serchs">
+          <button @click="serchsa">搜索</button>
         </div>
-        <h1>本市政策</h1>
+        <h1 v-if="leftShow==0">本市政策</h1>
+        <h1 v-if="leftShow==1">本省政策</h1>
+        <h1 v-if="leftShow==2">中央政策</h1>
         <ul class="addlist">
 <!--          <router-link tag="a" to="/information/informationMore/informationdetali">本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</router-link>-->
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
-          <li><router-link to="/information/informationMore/informationdetali"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>2019-2-22</span></router-link></li>
+          <li v-for="(item,idx) in newsList" :key="idx" ><router-link tag="a" :to="{path:'/information/informationMore/informationdetali',query:{id:item.policyId}}"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>{{clearFen(item.publishTime)}}</span></router-link></li>
         </ul>
       </div>
     </div>
@@ -99,7 +79,12 @@
                 pageConfig: {
                     pageSize: 10,     //一页的数据条数
                     total: 500,         //总的数据条数
-                }
+                },
+                categoryid:1,
+                newsList:'',
+                leftlist:['本市政策','本省政策','中央政策'],
+                leftShow:0,
+                serchs:''
             }
         },
         components: {
@@ -107,17 +92,31 @@
             footerNav
         },
         methods:{
+            serchsa(){
+                this.getnewList(20,1,this. categoryid,this.serchs);
+            },
+            cleft(i){
+              this. leftShow=i;
+              this.categoryid=i+1;
+                this.getnewList(20,1,this. categoryid,this.serchs);
+            },
             prePage(){
-                this.currentPage -= 1
+                this.currentPage -= 1;
+                this.getnewList(20,1,this. categoryid,this.serchs);
             },
             nextPage(){
-                this.currentPage += 1
+                this.currentPage += 1;
+                this.getnewList(20,1,this. categoryid,this.serchs);
             },
             changeCurrentPage(i){
                 this.currentPage = i;
+                this.getnewList(20,1,this. categoryid,this.serchs);
             },
-            getnewList(a,b,c){
-                this.axios.post('/web/policy/list',{title:' ',categoryid:c,size:a,current:b}).then(({data})=>{
+            clearFen(i){
+                return i.substring(0,i.indexOf(' '))
+            },
+            getnewList(a,b,c,d){
+                this.axios.post('/web/policy/list',{title:d,categoryid:c,size:a,current:b}).then(({data})=>{
                     this.pageTotal=data.data.pages;
                     this.currentPage=data.data.current;
                     this. pageConfig.pageSize=data.data.size;
@@ -128,7 +127,7 @@
             },
         },
         created() {
-            this.getnewList(20,1,1);
+            this.getnewList(20,1,this. categoryid,this.serchs);
         }
     }
 </script>

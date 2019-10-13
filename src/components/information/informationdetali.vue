@@ -42,7 +42,7 @@
             }
         },
         created() {
-            this.leftSelect= this.$route.query.leftId;
+            this.leftSelect= this.$route.query.Id;
         },
         methods:{
             lefts(i){
