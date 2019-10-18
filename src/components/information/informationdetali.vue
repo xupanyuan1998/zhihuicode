@@ -13,10 +13,10 @@
           <h3 v-for="(item,idx) in leftList" :key="idx" :class="leftSelect==idx?'select':''" @click="lefts(idx)">{{item}}</h3>
         </div>
         <div class="right">
-          <h2><div><p>关于组织开展减税惠企政策微信有奖答题活动的通知</p><span>置顶</span></div></h2>
-          <div class="Units"><p><span>发布单位:质监局</span> <b>发布日期:2019-9-25 16:02:38</b> </p></div>
-          <div class="cate"><span>分类:行业规范</span> <b>行业:全部</b> <strong>分类编号:saegfsrgrs</strong> <p><img src="../../../static/images/18.png" alt=""><i>收藏</i></p></div>
-          <div class="content"></div>
+          <div class="top"><div><p>{{content.title}}</p><span v-if="content.isTop===1">置顶</span></div></div>
+          <div class="Units"><p><span>发布单位:{{content.departmentName }}</span> <b>发布日期:{{content.publishTime}}</b> </p></div>
+          <div class="cate"><span>分类:{{content.categoryName}}</span> <b>行业:全部</b> <strong>分类编号:{{content.classIcno}}</strong> <p><img src="../../../static/images/18.png" alt=""><i>收藏</i></p></div>
+          <div class="content" v-html="content.content"></div>
         </div>
       </div>
       <div class="bottom">
@@ -39,10 +39,20 @@
                 clectnav: 1,
                 leftList:['本市政策','本省政策','中央政策'],
                 leftSelect:0,
+                content:''
             }
         },
         created() {
-            this.leftSelect= this.$route.query.Id;
+            this.leftSelect= this.$route.query.leftId;
+            let id=this.$route.query.id;
+            console.log(this.$route.query);
+            this.axios.post('/web/policy/policy',{policy_id:id}).then(({data})=>{
+                console.log(data.data);
+                this.content=data.data;
+            })
+            this.$nextTick(function () {
+                $('.content').children().css('font-size','14px')
+            })
         },
         methods:{
             lefts(i){
@@ -112,7 +122,7 @@
       width:989px;
       min-height: 700px;
       border:1px solid rgba(217,217,217,1);
-      h2{
+      .top{
         padding-top: 40px;
         height: 29px;
         text-align: center;
@@ -144,6 +154,7 @@
 
       }
       .Units{
+        cursor: default;
         height: 48px;
         text-align: center;
         p{
@@ -174,6 +185,7 @@
         height:26px;
         background:rgba(245,245,245,1);
         margin: 0 auto;
+        cursor: default;
         >*{
           display: block;
           float: left;
@@ -201,6 +213,7 @@
         p{
           margin-left: 32px;
           overflow: hidden;
+          cursor: default;
           img{
             display: block;
             float: left;
@@ -213,7 +226,7 @@
         }
       }
       .content{
-        padding-top: 30px;
+        padding: 32px 88px 58px 93px;
       }
     }
   }

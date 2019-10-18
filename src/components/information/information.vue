@@ -32,7 +32,7 @@
         <div class="right left">
           <h1><span class="xuan">本市政策</span>  <router-link tag="a" to="/information/informationMore">更多>></router-link></h1>
           <ul class="addlist">
-            <li v-for="(item,idx) in zhengData.policycitylist" :key="idx"><b></b> <router-link tag="a" :to="{path:'/information/informationMore/informationdetali',query:{id:item.policyId}}">{{item.title}}</router-link> <span>{{clearFen(item.publishTime)}}</span></li>
+            <li v-for="(item,idx) in zhengData.policycitylist" :key="idx"><b></b> <router-link tag="a" :to="{path:'/information/informationMore/informationdetali',query:{id:item.policyId,leftId:0}}">{{item.title}}</router-link> <span>{{clearFen(item.publishTime)}}</span></li>
           </ul>
         </div>
         <div class="con">

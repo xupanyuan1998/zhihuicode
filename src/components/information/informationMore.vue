@@ -17,7 +17,7 @@
         <h1 v-if="leftShow==2">中央政策</h1>
         <ul class="addlist">
 <!--          <router-link tag="a" to="/information/informationMore/informationdetali">本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</router-link>-->
-          <li v-for="(item,idx) in newsList" :key="idx" ><router-link tag="a" :to="{path:'/information/informationMore/informationdetali',query:{id:item.policyId}}"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>{{clearFen(item.publishTime)}}</span></router-link></li>
+          <li v-for="(item,idx) in newsList" :key="idx" ><router-link tag="a" :to="{path:'/information/informationMore/informationdetali',query:{id:item.policyId,leftId:leftShow}}"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>{{clearFen(item.publishTime)}}</span></router-link></li>
         </ul>
       </div>
     </div>
@@ -80,7 +80,7 @@
                     pageSize: 10,     //一页的数据条数
                     total: 500,         //总的数据条数
                 },
-                categoryid:1,
+                categoryid:11,
                 newsList:'',
                 leftlist:['本市政策','本省政策','中央政策'],
                 leftShow:0,
@@ -97,20 +97,20 @@
             },
             cleft(i){
               this. leftShow=i;
-              this.categoryid=i+1;
+              this.categoryid=i+11;
                 this.getnewList(20,1,this. categoryid,this.serchs);
             },
             prePage(){
                 this.currentPage -= 1;
-                this.getnewList(20,1,this. categoryid,this.serchs);
+                this.getnewList(20, this.currentPage,this. categoryid,this.serchs);
             },
             nextPage(){
                 this.currentPage += 1;
-                this.getnewList(20,1,this. categoryid,this.serchs);
+                this.getnewList(20, this.currentPage,this. categoryid,this.serchs);
             },
             changeCurrentPage(i){
                 this.currentPage = i;
-                this.getnewList(20,1,this. categoryid,this.serchs);
+                this.getnewList(20, this.currentPage,this. categoryid,this.serchs);
             },
             clearFen(i){
                 return i.substring(0,i.indexOf(' '))

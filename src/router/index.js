@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
-import news from '@/components/news'
 import noticedetali from '@/components/policy/policydetali'
 import policy from '@/components/policy/policy'
 import information from '@/components/information/information'
@@ -11,6 +10,7 @@ import guides from '@/components/information/guides'
 import guidesDetali from '@/components/information/guidesDetali'
 import openly from '@/components/openly/openly'
 import Antonym from '@/components/Antonym/Antonym'
+import onlineWork from '@/components/Antonym/onlineWork'
 import Antonymdetali from '@/components/Antonym/Antonymdetali'
 import Corporation from '@/components/Corporation/Corporation'
 import Corporationlist from '@/components/Corporation/Corporationlist'
@@ -32,11 +32,6 @@ export default new Router({
       path: '/',
       name: 'index',
       component: index
-    },
-    {
-      path: '/news',
-      name: 'news',
-      component: news
     },
     {//公告详情
       path: '/policy/policydetali',
@@ -82,6 +77,11 @@ export default new Router({
       path: '/Antonym',
       name: 'Antonym',
       component:Antonym
+    },
+    {//办理须知
+      path: '/Antonym/onlineWork',
+      name: 'onlineWork',
+      component:onlineWork
     },
     {//民企风采
       path: '/Corporation',

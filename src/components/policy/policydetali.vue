@@ -219,7 +219,7 @@
         }
       }
       .content{
-        padding: 30px 80px 0 80px;
+        padding: 32px 88px 16px 93px;
       }
     }
   }

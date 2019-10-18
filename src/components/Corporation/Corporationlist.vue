@@ -10,60 +10,12 @@
     </div>
     <div class="warp">
       <ul>
-        <li>
-          <img src="../../../static/images/bank.png" alt="">
+        <li v-for="(item,idx) in list" :key="idx">
+          <img :src="item.companyLogo" alt="">
           <div>
-            <h2>铜陵银行</h2>
-            <span> 所属行业:银行业</span>
-            <p>铜陵银行股份有限公司成立于1997年，注册资本22.99亿元，总行位于安徽省铜陵市。2016年8月，铜陵银行首次公开发行股票在上海证券交易所成功上市，股票代码601997。目前，全行下辖9个省内分行、1个省外分行，机构网点实现贵州省88个县域全覆盖...</p>
-          </div>
-        </li>
-        <li>
-          <img src="../../../static/images/bank.png" alt="">
-          <div>
-            <h2>铜陵银行</h2>
-            <span> 所属行业:银行业</span>
-            <p>铜陵银行股份有限公司成立于1997年，注册资本22.99亿元，总行位于安徽省铜陵市。2016年8月，铜陵银行首次公开发行股票在上海证券交易所成功上市，股票代码601997。目前，全行下辖9个省内分行、1个省外分行，机构网点实现贵州省88个县域全覆盖...</p>
-          </div>
-        </li>
-        <li>
-          <img src="../../../static/images/bank.png" alt="">
-          <div>
-            <h2>铜陵银行</h2>
-            <span> 所属行业:银行业</span>
-            <p>铜陵银行股份有限公司成立于1997年，注册资本22.99亿元，总行位于安徽省铜陵市。2016年8月，铜陵银行首次公开发行股票在上海证券交易所成功上市，股票代码601997。目前，全行下辖9个省内分行、1个省外分行，机构网点实现贵州省88个县域全覆盖...</p>
-          </div>
-        </li>
-        <li>
-          <img src="../../../static/images/bank.png" alt="">
-          <div>
-            <h2>铜陵银行</h2>
-            <span> 所属行业:银行业</span>
-            <p>铜陵银行股份有限公司成立于1997年，注册资本22.99亿元，总行位于安徽省铜陵市。2016年8月，铜陵银行首次公开发行股票在上海证券交易所成功上市，股票代码601997。目前，全行下辖9个省内分行、1个省外分行，机构网点实现贵州省88个县域全覆盖...</p>
-          </div>
-        </li>
-        <li>
-          <img src="../../../static/images/bank.png" alt="">
-          <div>
-            <h2>铜陵银行</h2>
-            <span> 所属行业:银行业</span>
-            <p>铜陵银行股份有限公司成立于1997年，注册资本22.99亿元，总行位于安徽省铜陵市。2016年8月，铜陵银行首次公开发行股票在上海证券交易所成功上市，股票代码601997。目前，全行下辖9个省内分行、1个省外分行，机构网点实现贵州省88个县域全覆盖...</p>
-          </div>
-        </li>
-        <li>
-          <img src="../../../static/images/bank.png" alt="">
-          <div>
-            <h2>铜陵银行</h2>
-            <span> 所属行业:银行业</span>
-            <p>铜陵银行股份有限公司成立于1997年，注册资本22.99亿元，总行位于安徽省铜陵市。2016年8月，铜陵银行首次公开发行股票在上海证券交易所成功上市，股票代码601997。目前，全行下辖9个省内分行、1个省外分行，机构网点实现贵州省88个县域全覆盖...</p>
-          </div>
-        </li>
-        <li>
-          <img src="../../../static/images/bank.png" alt="">
-          <div>
-            <h2>铜陵银行</h2>
-            <span> 所属行业:银行业</span>
-            <p>铜陵银行股份有限公司成立于1997年，注册资本22.99亿元，总行位于安徽省铜陵市。2016年8月，铜陵银行首次公开发行股票在上海证券交易所成功上市，股票代码601997。目前，全行下辖9个省内分行、1个省外分行，机构网点实现贵州省88个县域全覆盖...</p>
+            <h2>{{item.companyName}}</h2>
+            <span> 所属行业:{{item.industry}}</span>
+            <p>{{item.intro}}</p>
           </div>
         </li>
       </ul>
@@ -119,25 +71,83 @@
         components:{headNav,footerNav},
         data(){
             return {
-                clectnav: 0,
-                showPageNo:1,
+                clectnav: 3,
+                showPageNo:8,
                 currentPage:1,
-                pageTotal: 50,//总的页数
+                pageTotal: '',//总的页数
                 pageConfig: {
-                    pageSize: 10,     //一页的数据条数
-                    total: 500,         //总的数据条数
-                }
+                    pageSize: 1,     //一页的数据条数
+                    total: '',         //总的数据条数
+                },
+                serch:{
+                    chan:'',
+                    gui:'',
+                    di:'',
+                    sousuo:''
+                },
+                list:'',
             }
+        },
+        created(){
+            this.serch=this.$route.query;
+            var datas={
+                current:this.currentPage,//页码
+                size:this.pageConfig.pageSize,//每页的条数
+                title:this.serch.sousuo,//搜索内容
+                industryId:this.serch.chan,//产业id
+                regionId:this.serch.di,//地区id
+                scaleId:this.serch.gui,//规模id
+            };
+            this.getList(datas)
+
         },
         methods:{
             prePage(){
-                this.currentPage -= 1
+                this.currentPage -= 1;
+                var datas={
+                    current:this.currentPage,//页码
+                    size:this.pageConfig.pageSize,//每页的条数
+                    title:this.serch.sousuo,//搜索内容
+                    industryId:this.serch.chan,//产业id
+                    regionId:this.serch.di,//地区id
+                    scaleId:this.serch.gui,//规模id
+                };
+                this.getList(datas)
             },
             nextPage(){
-                this.currentPage += 1
+                this.currentPage += 1;
+                var datas={
+                    current:this.currentPage,//页码
+                    size:this.pageConfig.pageSize,//每页的条数
+                    title:this.serch.sousuo,//搜索内容
+                    industryId:this.serch.chan,//产业id
+                    regionId:this.serch.di,//地区id
+                    scaleId:this.serch.gui,//规模id
+                };
+                this.getList(datas);
             },
             changeCurrentPage(i){
                 this.currentPage = i;
+                var datas={
+                    current:this.currentPage,//页码
+                    size:this.pageConfig.pageSize,//每页的条数
+                    title:this.serch.sousuo,//搜索内容
+                    industryId:this.serch.chan,//产业id
+                    regionId:this.serch.di,//地区id
+                    scaleId:this.serch.gui,//规模id
+                };
+                this.getList(datas);
+            },
+            //获取列表
+            getList(datas){
+                this.axios.post('/web/company/companylist',datas).then(({data})=>{
+                    console.log(data.data);
+                    this.pageTotal=data.data.pages;
+                    this.currentPage=data.data.current;
+                    this. pageConfig.pageSize=data.data.size;
+                    this. pageConfig.total=data.data.total;
+                    this.list=data.data.records;
+                })
             }
         }
     }
@@ -215,11 +225,16 @@
           }
           p{
             width:849px;
-            height:35px;
+            height:42px;
             font-size:14px;
             font-weight:400;
             color:rgba(69,69,69,1);
             line-height:21px;
+            display: -webkit-box;
+            overflow: hidden;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+
           }
         }
       }

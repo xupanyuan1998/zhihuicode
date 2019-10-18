@@ -12,7 +12,9 @@
         <h3>欢迎注册</h3>
       </div>
     </div>
-    <div class="bai"></div>
+    <div class="res">
+      <img src="../../static/images/52.png" alt=""><span>实名注册</span>
+    </div>
     <div class="warp">
       <ul>
         <li>
@@ -20,6 +22,30 @@
           <div>
             <label>
               <input type="text" v-model="user">
+            </label>
+          </div>
+        </li>
+        <li>
+          <p><b>*</b><span>真实姓名:</span></p>
+          <div>
+            <label>
+              <input type="text" v-model="trueName">
+            </label>
+          </div>
+        </li>
+        <li>
+          <p><b>*</b><span>证件类型:</span></p>
+          <div>
+            <h2>
+              <strong> <a href="javascript:;"></a></strong>
+            </h2>
+          </div>
+        </li>
+        <li>
+          <p><b>*</b><span>证件号码:</span></p>
+          <div>
+            <label>
+              <input type="text" v-model="cardNum">
             </label>
           </div>
         </li>
@@ -51,7 +77,6 @@
           <p><b>*</b><span>验证码:</span></p>
           <div><label>
             <input type="text" v-model="numYan">
-
           </label> <img src="../../static/images/46.png" alt=""></div>
         </li>
         <li class="yan">
@@ -66,12 +91,17 @@
     <div>
       <footer-nav></footer-nav>
     </div>
+    <div class="place" style="display: block">
+      <div>
+        <img src="../../static/images/53.png" alt="">
+        <span>注册成功</span>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
     import footerNav from "./footer"
-
     export default {
         name: "registered",
         components: {
@@ -90,6 +120,9 @@
                 isdao:'false',
                 dao:60,
                 timer:'',
+                trueName:'',//真实姓名
+                card:'',//证件类型
+                cardNum:''//证件号码
             }
         },
         methods:{
@@ -117,14 +150,12 @@
 
 <style scoped lang="less">
   .content {
-    padding-top: 43px;
-    width: 1200px;
-    margin: 0 auto;
-
+    border-bottom: 2px solid #E7390A;
     .center {
       padding: 10px 0;
       overflow: hidden;
-
+      width: 1200px;
+      margin: 0 auto;
       .logo {
         height: 83px;
         float: left;
@@ -173,35 +204,45 @@
       }
     }
   }
-
-  .bai {
-    height: 32px;
-    width: 100%;
-    background: #F5F5F5;
+  .res{
+    margin: 0 auto;
+    width: 1200px;
+    border-bottom: 1px solid #E6E6E6;
+    height: 70px;
+    img{
+      margin: 39px 10px 10px 13px;
+      display: block;
+      float: left;
+    }
+    span{
+      cursor: default;
+      display: block;
+      float: left;
+      font-size:20px;
+      color:rgba(69,69,69,1);
+      margin-top: 38px;
+    }
   }
-
   .warp {
     width: 600px;
     margin: 0 auto;
-    padding: 82px 367px 52px 232px;
-
+    padding: 49px 367px 52px 232px;
     ul {
       li {
         width: 600px;
-        height: 44px;
-        margin-bottom: 30px;
-
+        height: 38px;
+        margin-bottom: 23px;
         p {
           float: left;
-          height: 44px;
+          height: 40px;
           margin-right: 32px;
           width: 168px;
           text-align: right;
 
           b {
             display: inline-block;
-            height: 44px;
-            line-height: 44px;
+            height: 40px;
+            line-height: 40px;
             font-size: 16px;
             font-weight: 400;
             color: rgba(254, 0, 0, 1);
@@ -210,30 +251,68 @@
 
           span {
             display: inline-block;
-            height: 44px;
-            line-height: 44px;
+            height: 40px;
+            line-height: 40px;
             font-size: 20px;
             font-weight: 400;
             color: rgba(116, 116, 116, 1);
           }
         }
-
         div {
           float: left;
-
+          h2{
+            display: block;
+            padding: 0 10px;
+            height: 38px;
+            line-height: 38px;
+            width: 378px;
+            border: 1px solid rgba(179, 179, 179, 1);
+            outline: none;
+            position: relative;
+            strong{
+              width:32px;
+              height:38px;
+              position: absolute;
+              top: 0;
+              right: 0;
+              background:rgba(229,229,229,1);
+              a{
+                display :inline-block;
+                position: relative;
+                width: 38px;
+                height: 38px;
+              }
+              a:after {
+                display: inline-block;
+                content: " ";
+                height: 10px;
+                width: 10px;
+                border-width: 0 1px 1px 0;
+                border-color: #1a1a1a;
+                border-style: solid;
+                transform: matrix(0.71, 0.71, -0.71, 0.71, 0, 0);
+                transform-origin: center;
+                transition: transform .3s;
+                position: absolute;
+                top: 50%;
+                right: 15px;
+                margin-top: -10px;
+              }
+            }
+          }
           input {
             float: left;
             display: block;
             padding: 0 10px;
-            height: 44px;
-            line-height: 44px;
+            height: 38px;
+            line-height: 38px;
             width: 378px;
             border: 1px solid rgba(179, 179, 179, 1);
             outline: none;
           }
+
         }
       }
-
       li.yan {
         div {
           input {
@@ -268,7 +347,6 @@
         }
       }
     }
-
     button {
       display: block;
       outline: none;
@@ -281,5 +359,40 @@
       color: rgba(255, 254, 254, 1);
       margin: 18px 0 0 225px;
     }
+  }
+  .place{
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0,0,0,.2);
+    position: fixed;
+    top: 0;
+    left: 0;
+   div{
+     width:294px;
+     height:70px;
+     background:rgba(255,255,255,1);
+     border-radius:4px;
+     position: fixed;
+     top: 50%;
+     left: 50%;
+     transform: translate(-50%,-50%);
+     img{
+       display: block;
+       float: left;
+     }
+     span{
+       display: block;
+       float: left;
+       width:198px;
+       height:68px;
+       line-height: 68px;
+       text-align: center;
+       font-size:34px;
+       font-weight:400;
+       color:rgba(69,69,69,1);
+       border: 1px solid #e6e6e6;
+
+     }
+   }
   }
 </style>

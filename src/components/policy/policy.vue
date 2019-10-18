@@ -110,7 +110,7 @@
             },
             getnewList(a,b,c,d){
                 this.axios.post('/web/newnotice/noticelist',{title:c,categoryId:d,size:a,current:b}).then(({data})=>{
-                    console.log(data);
+                    // console.log(data);
                    this.pageTotal=data.data.pages;
                    this.currentPage=data.data.current;
                    this. pageConfig.pageSize=data.data.size;

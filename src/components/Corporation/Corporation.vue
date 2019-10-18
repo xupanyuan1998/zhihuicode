@@ -28,7 +28,7 @@
                 <span>按产业:</span>
               </div>
               <ul class="bu_r">
-                <li v-for="(item,idx) in content.industrylist" @click="chanS1(idx,item.categoryId)" :class="idx==chan1?'selec':''">{{item.name}}</li>
+                <li v-for="(item,idx) in content.industrylist" @click="chanS1(item)" :class="item.active?'selec':''">{{item.name}}</li>
               </ul>
             </div>
             <div class="bu">
@@ -36,7 +36,7 @@
                 <span>按规模:</span>
               </div>
               <ul class="bu_r">
-                <li v-for="(item,idx) in content.scalelist" @click="chanS2(idx,item.categoryId)" :class="idx==chan2?'selec':''">{{item.name}}</li>
+                <li v-for="(item,idx) in content.scalelist" @click="chanS2(item)" :class="item.active?'selec':''">{{item.name}}</li>
               </ul>
             </div>
             <div class="bu">
@@ -44,10 +44,10 @@
                 <span>按地区:</span>
               </div>
               <ul class="bu_r">
-                <li v-for="(item,idx) in content.regionlist" @click="chanS3(idx,item.categoryId)" :class="idx==chan3?'selec':''">{{item.name}}</li>
+                <li v-for="(item,idx) in content.regionlist" @click="chanS3(item)" :class="item.active?'selec':''">{{item.name}}</li>
               </ul>
             </div>
-            <div class="search"><span>企业名称:</span><input type="text"></div>
+            <div class="search"><span>企业名称:</span><input type="text" v-model=" serachs.sousuo" /></div>
             <button @click="gomyspace">检索</button>
           </div>
 
@@ -115,6 +115,12 @@
                 chan1:0,
                 chan2:0,
                 chan3:0,
+                serachs:{
+                    chan:'',
+                    gui:'',
+                    di:'',
+                    sousuo:' '
+                },
             }
         },
         created(){
@@ -124,14 +130,24 @@
                 this.content.supplyanddemandlist=this.sliceArr(data.supplyanddemandlist,6);//供需广场
                 this.content.companycreditlist=this.sliceArr(data.companycreditlist,6);//企业信用
                 this.content.abilityarchivesList=this.sliceArr(data.abilityarchivesList,8);//人才
-                this.content.regionlist=data.regionlist;//人才
-                this.content.scalelist=data.scalelist;//人才
-                this.content. industrylist=data. industrylist;//人才
+                this.content.regionlist=this.addactive(data.regionlist);//地区
+                this.content.scalelist=this.addactive(data.scalelist);//规模
+                this.content. industrylist=this.addactive(data.industrylist);//产业
+
+                // this. serachs.chan=data. industrylist[0].categoryId;//产业默认id
+                // this. serachs.gui=data. scalelist[0].categoryId;//规模默认id
+                // this. serachs.di=data. regionlist[0].categoryId;//产业默认id
             })
         },
         methods: {
             gomyspace() {
-                this.$router.push('/Corporation/myspace')
+                // this.$router.push('/Corporation/Corporationlist');
+                var data=this.serachs;
+                console.log(data);
+                this.$router.push({
+                    path:'/Corporation/Corporationlist',
+                    query: data
+                })
             },
             //截取数组
             sliceArr(arr, i) {
@@ -155,26 +171,69 @@
                 return i.substring(0,i.indexOf(' '))
             },
             gongyi(i){
+                let type='';
                 this.gong=i;
+                if(i==0){
+                    type=1;
+                }else if(i==1){
+                    type=2;
+                }else if(i==2){
+                    type='';
+                }
+                this.axios.post('/web/company/list',{type:type}).then(({data})=>{
+                    console.log(data.data);
+                    this.content.supplyanddemandlist=this.sliceArr(data.data,6);//供需广场
+                })
             },
             xinyi(i){
                 this.xinSle=i;
             },
             renyi(i){
                 this.renSle=i;
+                let type='';
+                if(i==4){
+                    type='';
+                }else{
+                    type=i+1;
+                };
+                this.axios.post('/web/company/abilityarchiveslist',{type:type}).then(({data})=>{
+                    this.content.abilityarchivesList=this.sliceArr(data.data,8);//人才
+                })
             },
-            chanS1(i,id){
-                this.chan1=i;
-                console.log(id);
+            //产业选中
+            chanS1(index){
+                this.$nextTick(function () {
+                    var arr=this.content. industrylist;
+                    this.addactive(arr);
+                    this.$set(index,'active',true);
+                    this.serachs.chan=index.categoryId;
+                });
             },
-            chanS2(i,id){
-                this.chan2=i;
-                console.log(id);
+            //规模选中
+            chanS2(index){
+                this.$nextTick(function () {
+                    var arr= this.content.scalelist;
+                    this.addactive(arr);
+                    this.$set(index,'active',true);
+                    this.serachs.gui=index.categoryId;
+                });
             },
-            chanS3(i,id){
-                this.chan3=i;
-                console.log(id);
+            //地区选中
+            chanS3(index){
+                this.$nextTick(function () {
+                    var arr=this.content.regionlist;
+                    this.addactive(arr);
+                    this.$set(index,'active',true);
+                    this.serachs.di=index.categoryId;
+                });
             },
+            //添加选中
+            addactive(arr){
+               for (let i=0;i<arr.length;i++){
+                   arr[i].active=false;
+               }
+               return arr
+            }
         },
         components:{
             headNav,
@@ -556,6 +615,9 @@
             color:rgba(51,51,51,1);
             line-height:36px;
           }
+        }
+        li:last-child{
+          border-bottom: none;
         }
       }
     }

@@ -23,7 +23,7 @@
           </div>
           <div class="adlist" >
             <ul class="addlist" v-if="newclec==0">
-              <li v-for="(item,idx) in content.newslist" :key="idx"><b></b> <router-link :to="{path:'/newslist/newsdetali',query:{id:item.newsId}}" tag="a"><p>{{item.title}}</p><i v-if="idx==0">置顶</i></router-link> <span>{{clearFen(item.addtime)}}</span></li>
+              <li v-for="(item,idx) in content.newslist" :key="idx"><b></b> <router-link :to="{path:'/newslist/newsdetali',query:{id:item.newsId}}" tag="a"><p>{{item.title}}</p><i v-if="item.isTOP==1">置顶</i></router-link> <span>{{clearFen(item.addtime)}}</span></li>
             </ul>
             <ul class="addlist" v-if="newclec==1">
               <li v-for="(item,idx) in content.noticelist" :key="idx"><b></b> <router-link :to="{path:'/policy/policydetali',query:{id:item.noticeid}}" tag="a"><p>{{item.title}}</p><i v-if="idx==0">置顶</i></router-link> <span>{{clearFen(item.addTime)}}</span></li>
@@ -31,14 +31,20 @@
           </div>
         </div>
        <div class="new_r">
-         <div class="login" v-if="loginShow">
+         <div class="login" v-if="loginShow===0">
+           <span class="erweima" @click="malogin"></span>
            <h2>欢迎登录民营经济智慧云服务平台</h2>
            <div><img src="../../static/images/9.png" alt=""> <input type="text" placeholder="请输入用户名" v-model="user"></div>
            <div><img src="../../static/images/10.png" alt=""> <input type="password" placeholder="请输入密码" v-model="password"></div>
            <button @click="login">登录</button>
-           <a href="javascript:;" class="gores" @click="goRegistered">免费注册</a>
+           <p><b class="gores" >忘记密码</b><b class="gores"  @click="goRegistered">免费注册</b></p>
          </div>
-         <div class="go" v-if="loginShow==false">
+         <div class="login erma" v-if="loginShow===1" @mouseleave="normal">
+           <h2>欢迎登录民营经济智慧云服务平台</h2>
+           <img src="../../static/images/app.png" alt="">
+           <a href="javascript:;" class="gores">扫描二维码登录</a>
+         </div>
+         <div class="go" v-if="loginShow===2">
            <div class="heimg" @click="goPersonal">
              <img src="../../static/images/30.png" alt="">
              <span v-if="personal.roleId==0">个人用户</span>
@@ -47,7 +53,7 @@
            </div>
            <p>{{personal.userName}},欢迎您</p>
            <h3><button>修改密码</button><button @click="logout">退出登录</button></h3>
-           <div v-if="personal.authenticationstate==0">
+           <div v-if="personal.authenticationState==0">
              <b>您有一个法人账户未实名认证,</b>
              <router-link tag="a" to="/personal">请处理</router-link>
            </div>
@@ -217,7 +223,7 @@ export default {
             friendLinklist:''
         },
         yuanSleect:0,
-        loginShow:true,//登录框,
+        loginShow:0,//登录框,
         personal:'',
     }
   },
@@ -228,9 +234,9 @@ export default {
         let ge=localStorage.getItem('personal');
         this.personal=JSON.parse(ge);
         if(status==null){
-            this.loginShow=true;
+            this.loginShow=0;
         }else{
-            this.loginShow=false;
+            this.loginShow=2;
         }
         this.axios.post('/web/index/index').then(({data})=>{
             console.log(data);
@@ -256,11 +262,14 @@ export default {
             this.$router.push('/policy')
         }
       },
+        normal(){
+            this.loginShow=0;
+        },
         //登录
         login(){
             this.axios.post('/web/login/login',{mobile:this.user,password:this.password}).then(({data})=>{
                 if(data.code===10001){
-                    this.loginShow=false;
+                    this.loginShow=2;
                    this.personal=data.data ;
                    console.log(data.data.tokenSign);
                    localStorage.setItem('token',data.data.tokenSign);
@@ -271,9 +280,13 @@ export default {
         },
         //退出
         logout(){
-            this.loginShow=false;
+            this.loginShow=0;
             localStorage.removeItem('token');
             window.location.reload();
+        },
+        //二维码登录
+        malogin(){
+            this.loginShow=1;
         },
         newTab(i){//新闻公告开发
           this.newclec=i;
@@ -488,6 +501,16 @@ export default {
         width:363px;
         height:300px;
         background: url("../../static/images/8.png") no-repeat;
+        position: relative;
+        .erweima{
+          width: 35px;
+          height: 35px;
+          display: block;
+          background: url("../../static/images/login.png") no-repeat;
+          position: absolute;
+          top: 0;
+          right: 0;
+        }
         h2{
           width:363px;
           height: 77px;
@@ -536,17 +559,50 @@ export default {
           font-weight:400;
           color:rgba(255,255,255,1);
         }
+        p{
+          width:284px;
+          margin: 0 auto;
+          height: 30px;
+          b.gores{
+            cursor: default;
+            height: 30px;
+            line-height: 30px;
+            display: block;
+            float: left;
+          }
+          b:last-child{
+            float: right;
+          }
+        }
         .gores{
           display: block;
-          width: 100%;
           font-size:14px;
           font-weight:400;
           color:rgba(41,93,211,1);
           height: 20px;
           line-height: 20px;
           text-align: center;
-          margin-top: 22px;
         }
+      }
+      .erma{
+        h2{
+          height: 72px;
+          line-height: 72px;
+          text-align: center;
+        }
+        img{
+          display: block;
+          width: 131px;
+          height: 127px;
+          margin:7px auto;
+        }
+        .gores{
+          height: 69px;
+          line-height: 69px;
+          font-size: 18px;
+          color: #e53509;
+        }
+
       }
       .go{
         width:363px;
