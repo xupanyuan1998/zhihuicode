@@ -5,6 +5,8 @@ import App from './App'
 import router from './router'
 import vueSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css';
+import 'babel-polyfill'
+
 //引入jquery
 import $ from 'jquery'
 //引入axios
@@ -17,7 +19,7 @@ import Qs from 'qs'
 /*
 * 配置axios*/
 Vue.prototype.axios = axios.create({
-  baseURL:'http://192.168.0.106:9001',//http://118.31.247.144:8087
+  baseURL:' http://192.168.0.104:9001',//http://118.31.247.144:8087
   // http://192.168.0.104:9001
   timeout: 30000,
   // withCredentials: true,

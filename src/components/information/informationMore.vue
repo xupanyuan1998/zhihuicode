@@ -17,7 +17,7 @@
         <h1 v-if="leftShow==2">中央政策</h1>
         <ul class="addlist">
 <!--          <router-link tag="a" to="/information/informationMore/informationdetali">本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</router-link>-->
-          <li v-for="(item,idx) in newsList" :key="idx" ><router-link tag="a" :to="{path:'/information/informationMore/informationdetali',query:{id:item.policyId,leftId:leftShow}}"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em><p><strong></strong> <img src="../../../static/images/20.png" alt=""></p><span>{{clearFen(item.publishTime)}}</span></router-link></li>
+          <li v-for="(item,idx) in newsList" :key="idx" ><router-link tag="a" :to="{path:'/information/informationMore/informationdetali',query:{id:item.policyId,leftId:leftShow}}"><b></b><em>本市召开中小企业高质量发展座谈会23个优质中小企业重点项目集中开工</em></router-link><p><strong></strong> <img v-if="item.collState==0" src="../../../static/images/20.png" alt="" @click="addshou(item)"><img v-if="item.collState==1" src="../../../static/images/77.png" @click="cancleshou(item)" alt=""></p><span>{{clearFen(item.publishTime)}}</span></li>
         </ul>
       </div>
     </div>
@@ -84,7 +84,8 @@
                 newsList:'',
                 leftlist:['本市政策','本省政策','中央政策'],
                 leftShow:0,
-                serchs:''
+                serchs:'',
+                userId:0,
             }
         },
         components: {
@@ -116,7 +117,7 @@
                 return i.substring(0,i.indexOf(' '))
             },
             getnewList(a,b,c,d){
-                this.axios.post('/web/policy/list',{title:d,categoryid:c,size:a,current:b}).then(({data})=>{
+                this.axios.post('/web/policy/list',{title:d,categoryId:c,size:a,current:b,userId:this.userId}).then(({data})=>{
                     this.pageTotal=data.data.pages;
                     this.currentPage=data.data.current;
                     this. pageConfig.pageSize=data.data.size;
@@ -125,8 +126,38 @@
                     console.log(data)
                 })
             },
+            //添加收藏
+            addshou(i){
+                var a='#'+this.$route.fullPath+'/informationdetali?id='+i.policyId+'&leftId='+this.leftShow;
+                console.log(a);
+                if(this.msg==null){
+                    alert('请登录')
+                }else{
+                    this.axios.post('/web/usercollection/usercollection',{contentId:i.policyId,state:1,type:0,userId:this.msg.userId,Url:a}).then(({data})=>{
+                        if(data.code==10001){
+                            this.$set(i,'collState',1);
+                        }
+                    })
+                }
+
+            },
+            //取消收藏
+            cancleshou(i){
+                this.axios.post('/web/usercollection/usercollection',{contentId:i.policyId,state:2,type:0,userId:this.msg.userId,Url:' '}).then(({data})=>{
+                    if(data.code==10001){
+                        this.$set(i,'collState',0);
+                    }
+                })
+            },
         },
         created() {
+            var a=localStorage.getItem('personal');
+            this.msg=JSON.parse(a);
+            if(a==null){
+                this.userId=0;
+            }else{
+                this.userId=JSON.parse(a).userId;
+            }
             this.getnewList(20,1,this. categoryid,this.serchs);
         }
     }
@@ -218,6 +249,9 @@
           height: 39px;
           line-height: 39px;
           border-bottom: 1px dashed #c5c5c5;
+          a{
+            overflow: hidden;
+          }
           b{
             display: block;
             float: left;

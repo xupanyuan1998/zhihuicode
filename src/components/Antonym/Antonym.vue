@@ -78,7 +78,7 @@
                 <h1>{{(ids+1)+items.title}}</h1>
                 <h4>{{items.workBrief}}</h4>
                 <div><span>附件:</span><a :href="items.attachmentUrl" type="download">{{items.attachmentName}}</a></div>
-                <button v-if="items.state==1">我要办理</button>
+                <button v-if="items.state==1" @click="goint">我要办理</button>
                 <button v-if="items.state==0" class="wei">暂未开通</button>
               </li>
             </ul>
@@ -587,6 +587,10 @@
                     }
                 };
                 that.yixuan=arr1;
+            },
+            //办理须知
+            goint(){
+                this.$router.push('/Antonym/onlineWork');
             }
         }
     }

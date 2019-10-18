@@ -164,8 +164,9 @@
             },
             //企业详情
             goQi(i){
-                console.log(i)
-                this.$router.push('/Corporation/myspace')
+                this.$router.push({path:'/Corporation/myspace',query:{
+                        id:i
+                    }})
             },
             clearFen(i){
                 return i.substring(0,i.indexOf(' '))

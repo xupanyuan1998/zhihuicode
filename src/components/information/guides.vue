@@ -22,7 +22,7 @@
         </div>
         <h1>办事指南</h1>
         <ul class="addlist">
-          <li v-for="(item,index) in newsList"><b>[{{item.departmentName}}]</b><router-link tag="a" :to="{path:'/information/guides/guidesDetali',query:{id:item.departmentId}}">{{item.title}}</router-link><p><strong></strong><img src="../../../static/images/29.png" alt=""></p> <span>{{clearFen(item.publishTime)}}</span></li>
+          <li v-for="(item,index) in newsList"><b>[{{item.departmentName}}]</b><router-link tag="a" :to="{path:'/information/guides/guidesDetali',query:{id:item.departmentId}}">{{item.title}}</router-link><p><strong></strong><img v-if="item.collState==0" src="../../../static/images/20.png" alt="" @click="addshou(item)"><img v-if="item.collState==1" src="../../../static/images/77.png" @click="cancleshou(item)" alt=""></p> <span>{{clearFen(item.publishTime)}}</span></li>
         </ul>
         <div class="page">
           <!--        分页组件-->
@@ -87,7 +87,8 @@
                 newsList:'',
                 leftList:[],
                 leftSelect:'',
-                serch:''
+                serch:'',
+                userId:'',
             }
         },
         components:{
@@ -112,7 +113,7 @@
                 this.getnewList(20,this.currentPage,this.leftSelect,this.serch);
             },
             getnewList(a,b,c,d){
-                this.axios.post('/web/guide/list',{title:'',guideId:d,departmentId:c,size:a,current:b}).then(({data})=>{
+                this.axios.post('/web/guide/list',{title:'',guideId:d,departmentId:c,size:a,current:b,userId:this.userId}).then(({data})=>{
                     console.log(data.data.page2.records);
                     this.pageTotal=data.data.page2.pages;
                     this.currentPage=data.data.page2.current;
@@ -135,8 +136,38 @@
             clearFen(i){
                 return i.substring(0,i.indexOf(' '))
             },
+            //添加收藏
+            addshou(i){
+                var a='#'+this.$route.fullPath+'/informationdetali?id='+i.policyId+'&leftId='+this.leftShow;
+                console.log(a);
+                if(this.msg==null){
+                    alert('请登录')
+                }else{
+                    this.axios.post('/web/usercollection/usercollection',{contentId:i.departmentId,state:1,type:3,userId:this.msg.userId,Url:a}).then(({data})=>{
+                        if(data.code==10001){
+                            this.$set(i,'collState',1);
+                        }
+                    })
+                }
+
+            },
+            //取消收藏
+            cancleshou(i){
+                this.axios.post('/web/usercollection/usercollection',{contentId:i.departmentId,state:2,type:3,userId:this.msg.userId,Url:' '}).then(({data})=>{
+                    if(data.code==10001){
+                        this.$set(i,'collState',0);
+                    }
+                })
+            },
         },
         created() {
+            var a=localStorage.getItem('personal');
+            this.msg=JSON.parse(a);
+            if(a==null){
+                this.userId=0;
+            }else{
+                this.userId=JSON.parse(a).userId;
+            }
             console.log( this.$route.query.id)
            if( this.$route.query.id==undefined){
                this.leftSelect= '';

@@ -150,9 +150,9 @@
 
 <style scoped lang="less">
   .content {
-    border-bottom: 2px solid #E7390A;
+    border-bottom: 2px solid #D9D9D9;
     .center {
-      padding: 10px 0;
+      padding: 26px 0 10px;
       overflow: hidden;
       width: 1200px;
       margin: 0 auto;

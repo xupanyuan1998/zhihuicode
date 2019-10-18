@@ -65,7 +65,7 @@
       <div class="he">
         <h2><span>合作机构</span></h2>
         <ul>
-          <li v-for="(item,idx) in content.partnerslist" :key="idx"><img :src="item.partnersUrl" alt=""></li>
+          <li v-for="(item,idx) in content.partnerslist"><img :src="item.partnersUrl" alt=""></li>
         </ul>
       </div>
     </div>

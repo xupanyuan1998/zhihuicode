@@ -17,7 +17,7 @@
       <div class="right">
         <div class="titles"><div><p>{{content.title}}</p><span v-if="content.isTop==1">置顶</span></div></div>
         <div class="Units"><p><span>发布单位:{{content.departmentName}}</span> <b>发布日期:{{content.publishTime}}</b> </p></div>
-        <div class="cate"><span>分类:{{content.name}}</span> <b>行业:全部</b> <strong>分类编号:{{content.classIcno}}</strong> <p><img src="../../../static/images/18.png" alt="" v-if="shoucang==false"><img src="../../../static/images/18a.png" alt="" v-if="shoucang==true"><i>收藏</i></p></div>
+        <div class="cate"><span>分类:{{content.name}}</span> <b>行业:全部</b> <strong>分类编号:{{content.classIcno}}</strong> <p v-if="shoucang==0"><img src="../../../static/images/18.png" alt=""  @click="collection(content.noticeId)"><i>收藏</i></p> <p v-if="shoucang==1"><img src="../../../static/images/77.png" alt=""  @click="canclecollection(content.noticeId)"><i class="shou">已收藏</i></p></div>
         <div class="content" v-html="content.content"></div>
       </div>
     </div>
@@ -41,14 +41,50 @@
             return{
                 clectnav: 0,
                 content:'',
-                shoucang:false,
+                shoucang:'',
+                msg:'',
+                userId:'',
             }
         },
+        methods:{
+            //收藏
+            collection(i){
+                console.log(this.$route.path);
+                var a='#'+this.$route.fullPath;
+                console.log(a);
+                if(this.msg==null){
+
+                }else{
+                    this.axios.post('/web/usercollection/usercollection',{contentId:i,state:1,type:2,userId:this.msg.userId,Url:a}).then(({data})=>{
+                        if(data.code==10001){
+                            this.shoucang=1;
+                        };
+                    })
+                }
+
+            },
+            //取消收藏
+            canclecollection(i){
+                this.axios.post('/web/usercollection/usercollection',{contentId:i,state:2,type:2,userId:this.userId,Url:' '}).then(({data})=>{
+                    if(data.code==10001){
+                        this.shoucang=0;
+                    }
+                })
+            },
+        },
         created() {
+            var a=localStorage.getItem('personal');
+           this.msg=JSON.parse(a);
+            if(a==null){
+                this.userId=' ';
+            }else{
+                this.userId=JSON.parse(a).userId;
+            }
           //获取数据
-            this.axios.post('/web/newnotice/notice',{notice_id:this.$route.query.id}).then(({data})=>{
+            this.axios.post('/web/newnotice/notice',{noticeId:this.$route.query.id,userId:this.userId}).then(({data})=>{
                 console.log(data);
                 this.content=data.data;
+                this.shoucang=data.data.collState;
             })
         }
     }
@@ -215,6 +251,9 @@
           i{
             display: block;
             float: left;
+          }
+          i.shou{
+            color: #FF8D1E;
           }
         }
       }

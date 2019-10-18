@@ -6,25 +6,25 @@
     <div class="warp">
       <div class="top">
         <div class="t_l">
-          <img src="../../../static/images/bank1.png" alt="">
+          <div class="inl">
+            <img :src="company.companyLogo" alt="">
+          </div>
           <div class="int">
-            <h2>铜陵银行</h2>
+            <h2>{{company.companyName}}</h2>
             <h4><span>浏览: 200次</span><span>关注:10</span></h4>
-            <p>贵阳银行股份有限公司（简称：“贵阳银行”）成立于1997年，注册资本22.99亿元，总行位于贵州省贵阳市。2016年8月，贵阳银行首次公开发行股票在上海证券交易所成功上市，股票代码601997。目前，全行下辖9个省内分行、1个省外分行，机构网点实现贵州省88个县域全覆盖，发起设立贵阳贵银金融租赁有限责任公司和广元市贵商村镇银行股份有限公司，初步形成立足贵州、辐射西南、面向全国的服务网络。</p>
+            <p>{{company.intro}}</p>
           </div>
         </div>
         <div class="t_r">
           <h3><span>企业信息</span></h3>
           <ul>
-            <li>所属行业:银行</li>
-            <li>注册资金:500万</li>
-            <li>所在地址:贵州省贵阳市中华北路77号 </li>
-            <li>联系电话:400-119-6033 </li>
-            <li> 服务邮箱：jydfsd@126.com </li>
-            <li>单位信用：信用企业</li>
+            <li>所属行业:{{company.industry}}</li>
+            <li>注册资金:{{company.startupCapital}}万</li>
+            <li>所在地址:{{company.address}} </li>
+            <li>联系电话:{{company.telephone}} </li>
+            <li> 服务邮箱:{{company.email}}</li>
+            <li>单位信用：{{company.creditName}}</li>
             <li>单位规模：</li>
-
-
           </ul>
         </div>
       </div>
@@ -32,35 +32,20 @@
         <div class="s_l">
           <h4><span>产品/服务</span></h4>
           <ul>
-            <li><img src="../../../static/images/licai.png" alt=""><span>个人理财</span></li>
-            <li><img src="../../../static/images/licai.png" alt=""><span>个人理财</span></li>
-            <li class="selec"><img src="../../../static/images/licai.png" alt=""><span>个人理财</span></li>
-            <li><img src="../../../static/images/licai.png" alt=""><span>个人理财</span></li>
-            <li><img src="../../../static/images/licai.png" alt=""><span>个人理财</span></li>
-            <li class="selec"><img src="../../../static/images/licai.png" alt=""><span>个人理财</span></li>
+            <li v-for="(item,idx) in serviceList" :key="idx" :class="idx%3==2?'selec':''"><img :src="item.smallImg" alt=""><span>{{item.name}}</span></li>
           </ul>
         </div>
         <div class="c_l">
           <h4><span>近期需求</span></h4>
           <ul>
-            <li><b>[需求]</b><strong>销售桂花树</strong><i>1000颗</i><span>2019-9-12</span></li>
-            <li><b>[需求]</b><strong>销售桂花树</strong><i>1000颗</i><span>2019-9-12</span></li>
-            <li><b>[需求]</b><strong>销售桂花树</strong><i>1000颗</i><span>2019-9-12</span></li>
-            <li><b>[需求]</b><strong>销售桂花树</strong><i>1000颗</i><span>2019-9-12</span></li>
-            <li><b>[需求]</b><strong>销售桂花树</strong><i>1000颗</i><span>2019-9-12</span></li>
-            <li><b>[需求]</b><strong>销售桂花树</strong><i>1000颗</i><span>2019-9-12</span></li>
+            <li v-for="(item,idx) in supplyanddemandlist" :key="idx"><b v-if="item.type==1" class="xu">[供应]</b><b v-if="item.type==2" >[需求]</b><strong>{{item.productname}}</strong><i>{{item.number}}</i><span>{{clearFen(item.endtime)}}</span></li>
           </ul>
         </div>
       </div>
       <div class="zheng">
         <h4><span>企业资质</span></h4>
         <ul>
-          <li><img src="../../../static/images/zheng.png" alt=""></li>
-          <li><img src="../../../static/images/zheng.png" alt=""></li>
-          <li><img src="../../../static/images/zheng.png" alt=""></li>
-          <li><img src="../../../static/images/zheng.png" alt=""></li>
-          <li><img src="../../../static/images/zheng.png" alt=""></li>
-          <li><img src="../../../static/images/zheng.png" alt=""></li>
+          <li v-for="(item,idx) in qualificationsList" :key="idx"><img :src="item.smallImg" alt=""></li>
         </ul>
       </div>
     </div>
@@ -80,28 +65,32 @@
                 clectnav: 3,
                 user:'',
                 password:'',
-                imgUrl:['../../static/images/4.jpg','../../static/images/54.jpg',
-                    '../../static/images/6.jpg','../../static/images/7.jpg'],
-                swiperOption:{
-                    pagination: {
-                        el: ".swiper-pagination",
-                        clickable: true,
-                        type: "bullets"
-                    },
-                    autoplay:{
-                        delay:1000
-                    },
-                    loop:true,
-                    speed:800,
-                    effect:'slider'//切换效果 fade, slider ,cube,"coverflow",flip
-                }
+                company:'',
+                serviceList:'',//产品服务
+                qualificationsList:'',//企业资质
+                supplyanddemandlist:'',//供需
             }
         },
         created(){
             // this.axios.post('/web/index/index').then((data)=>{console.log(data)})
+            var id=this.$route.query.id;
+            this.axios.post('/web/company/company',{companyId:id}).then(({data})=>{
+                console.log(data.data);
+                this.company=data.data.company;
+                this.serviceList=data.data.servicelist;//产品服务
+                this.qualificationsList=this.sliceAway(data.data.qualificationslist,8);//企业资质
+                this.supplyanddemandlist=data.data.supplyanddemandlist;//供需
+            })
         },
         methods:{
-
+            clearFen(i){
+                return i.substring(0,i.indexOf(' '))
+            },
+            //切割数组
+            sliceAway(arr,i){
+                //arr=数组  i切割结束的下标
+                return arr.slice(0,i);
+            },
         },
         components:{
             headNav,
@@ -122,10 +111,18 @@
         width: 860px;
         height:275px;
         border:1px solid rgba(230,230,230,1);
-        img{
+        .inl{
           display: block;
           float: left;
           margin: 20px;
+          position: relative;
+          width:312px;
+          height:234px;
+          img{
+            position: absolute;top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+          }
         }
         .int{
           float: left;
@@ -276,7 +273,6 @@
             line-height: 36px;
             background:rgba(232,57,10,1);
             font-size:20px;
-            font-family:Microsoft YaHei;
             font-weight:bold;
             color:rgba(254,254,254,1);
           }
@@ -301,6 +297,9 @@
               font-size:14px;
               font-weight:400;
               color:rgba(50,164,156,1);
+            }
+            b.xu{
+              color: #df4c39;
             }
             strong{
               width: 168px;
@@ -344,7 +343,6 @@
           line-height: 36px;
           background:rgba(232,57,10,1);
           font-size:20px;
-          font-family:Microsoft YaHei;
           font-weight:bold;
           color:rgba(254,254,254,1);
         }
@@ -366,8 +364,5 @@
         }
       }
     }
-  }
-  .footer{
-    margin-top: 17px;
   }
 </style>

@@ -15,10 +15,10 @@
       </div>
       <div class="right" v-if="rightShow==0">
           <div class="order">
-            <b>我的在线工单[ <i>5</i> ]</b>
+            <b>我的在线工单[ <i>{{orderall}}</i> ]</b>
             <p id="option">
-              <span v-for="(item,idx) in optionList" :key="idx" v-if="idx==0||idx==2" :class="soption==idx?'xuan':''" @click="cateState(idx)">{{item}}</span>
-              <span v-for="(item,idx) in optionList" :key="idx" v-if="idx==1||idx==3" :class="soption==idx?'xuan':''" @click="cateState(idx)">{{item}}( <em>3</em> )</span>
+<!--              <span v-for="(item,idx) in optionList" :key="idx" v-if="idx==0||idx==2" :class="soption==idx?'xuan':''" @click="cateState(idx)">{{item}}</span>-->
+              <span v-for="(item,idx) in optionList" :key="idx"  :class="soption==idx?'xuan':''" @click="cateState(idx)">{{item}} <i v-if="idx==1">(  <em >{{dainum}}</em> )</i><i v-if="idx==3">(  <em >{{pingnum}}</em> )</i></span>
             </p>
           </div>
         <div class="title" v-if="soption==0">
@@ -30,20 +30,19 @@
             <em>完成时间</em>
           </div>
           <ul>
-            <li @click="int">
-            <span>1</span>
-            <b>陆励成 缴费人员增减申报（企业基本养老保险）</b>
-            <strong class="state">完结</strong>
-            <i class="jie">已完成</i>
-            <em>2019-9-20</em>
+            <li @click="int" v-for="(item,idx) in orderlist.all" :key="idx">
+            <span>{{idx+1}}</span>
+            <b>{{item.title}}</b>
+            <strong class="state" v-if="item.state==1">待审核</strong>
+            <strong class="state"  v-if="item.state==2">退回</strong>
+            <strong class="state"  v-if="item.state==3">交办信息</strong>
+            <strong class="state"  v-if="item.state==4">已完成</strong>
+            <strong class="state"  v-if="item.state==5">已评价</strong>
+            <i class="jie" v-if="item.state>3">已完成</i>
+            <i class="wei" v-if="item.state<=3">未完成</i>
+            <em v-if="item.state>3">{{clearFen(item.auditTime)}}</em>
+            <em v-if="item.state<=3">---</em>
           </li>
-            <li>
-              <span>1</span>
-              <b>陆励成 缴费人员增减申报（企业基本养老保险）</b>
-              <strong class="state">完结</strong>
-              <i class="wei">未完成</i>
-              <em>2019-9-20</em>
-            </li>
           </ul>
         </div>
         <div class="title" v-if="soption==2">
@@ -55,19 +54,12 @@
             <em>完成时间</em>
           </div>
           <ul>
-            <li>
-              <span>1</span>
-              <b>陆励成 缴费人员增减申报（企业基本养老保险）</b>
-              <strong class="state">完结</strong>
-              <i class="jie">社保局</i>
-              <em>2019-9-20</em>
-            </li>
-            <li>
-              <span>1</span>
-              <b>陆励成 缴费人员增减申报（企业基本养老保险）</b>
-              <strong class="state">完结</strong>
-              <i class="jie">社保局</i>
-              <em>2019-9-20</em>
+            <li  @click="int" v-for="(item,idx) in orderlist.yi" :key="idx">
+              <span>{{idx+1}}</span>
+              <b>{{item.title}}</b>
+              <strong class="state" v-if="item.state>3">已完成</strong>
+              <i class="jie">{{item.departmentName}}</i>
+              <em>{{clearFen(item.auditTime)}}</em>
             </li>
           </ul>
         </div>
@@ -75,24 +67,22 @@
           <div class="head">
             <span>编号</span>
             <b>工单名称</b>
-            <strong>结果</strong>
+            <strong>工单状态</strong>
             <i >部门</i>
             <em>完成时间</em>
           </div>
           <ul>
-            <li>
-              <span>1</span>
-              <b>陆励成 缴费人员增减申报（企业基本养老保险）</b>
-              <strong class="state">完结</strong>
-              <i >社保局</i>
-              <em>2019-9-20</em>
-            </li>
-            <li>
-              <span>1</span>
-              <b>陆励成 缴费人员增减申报（企业基本养老保险）</b>
-              <strong class="state">完结</strong>
-              <i >社保局</i>
-              <em>2019-9-20</em>
+            <li  @click="int" v-for="(item,idx) in orderlist.dai" :key="idx">
+              <span>{{idx+1}}</span>
+              <b>{{item.title}}</b>
+              <strong class="state" v-if="item.state==1">待审核</strong>
+              <strong class="state"  v-if="item.state==2">退回</strong>
+              <strong class="state"  v-if="item.state==3">交办信息</strong>
+              <strong class="state"  v-if="item.state==4">已完成</strong>
+              <strong class="state"  v-if="item.state==5">已评价</strong>
+              <i >{{item.departmentName}}</i>
+              <em v-if="item.state>3">{{clearFen(item.auditTime)}}</em>
+              <em v-if="item.state<=3">---</em>
             </li>
           </ul>
         </div>
@@ -104,26 +94,22 @@
             <i class="last">评价</i>
           </div>
           <ul>
-            <li>
-              <span>1</span>
-              <b>陆励成 缴费人员增减申报（企业基本养老保险）</b>
-              <em  class="zuo">2019-9-20</em>
+            <li  @click="int" v-for="(item,idx) in orderlist.ping" :key="idx">
+              <span>{{idx+1}}</span>
+              <b>{{item.title}}</b>
+              <em  class="zuo">{{clearFen(item.auditTime)}}</em>
               <i  class="last"><strong @click="pingjia"></strong></i>
-            </li>
-            <li>
-              <span>1</span>
-              <b>陆励成 缴费人员增减申报（企业基本养老保险）</b>
-              <em  class="zuo">2019-9-20</em>
-              <i class="last"><strong></strong></i>
             </li>
           </ul>
         </div>
         <div class="page">
           <div>
-            <button>上一页</button>
-            <button>第 <b>1</b> 页</button>
-            <button>共 <b>1</b> 页</button>
-            <button>下一页</button>
+            <button v-if="current==1" disabled="disabled">上一页</button>
+            <button v-if="current>1" @click="backPage">上一页</button>
+            <button>第 <b>{{current}}</b> 页</button>
+            <button>共 <b>{{pages}}</b> 页</button>
+            <button v-if="current<pages"  @click="nextPage">下一页</button>
+            <button  v-if="current==pages" disabled="disabled">下一页</button>
           </div>
         </div>
       </div>
@@ -308,12 +294,29 @@
                     {url:'../../../static/images/64.png',name:'系统消息'},
                 ],
                 leftShow:0,
+                current:1,//页码
+                size:10,//每页的条数
+                pages:'',//总页数
+                total:'',//数据总数
+                orderall:'',
+                dainum:'',
+                pingnum:'',
+                orderlist:{
+                    all:'',
+                    yi:'',
+                    dai:'',
+                    ping:''
+                },
+                token:''
             }
         },
         methods:{
             //修改用户名
             Modify(){
               this.Modifys='false';
+            },
+            clearFen(i){
+                return i.substring(0,i.indexOf(' '))
             },
             //确定修改用户名
             okSave(){
@@ -342,7 +345,15 @@
             },
             cateState(i){
                 this.soption=i;
-                console.log(i)
+               this.current=1;
+                var data={
+                    current:this.current,
+                    size:this.size,
+                    state:this. soption,
+                    title:' ',
+                    token:this.token
+                };
+                this.getList(data);
             },
             pingjia(){
                 this.rightShow=1;
@@ -352,6 +363,47 @@
             },
             int(){
                 this.rightShow=2;
+            },
+            //工单上一页
+            backPage(){
+                this.current -=1;
+                var data={
+                    current:this.current,
+                    size:this.size,
+                    state:this. soption,
+                    title:' ',
+                    token:this.token
+                };
+                this.getList(data);
+            },
+            nextPage(){
+                this.current +=1;
+                var data={
+                    current:this.current,
+                    size:this.size,
+                    state:this. soption,
+                    title:' ',
+                    token:this.token
+                };
+                this.getList(data);
+            },
+            getList(data){
+                this.axios.post('/web/workorder/list',data).then(({data})=>{
+                    console.log(data.data);
+                    this.pages=data.data.pages;
+                    this.total=data.data.total;
+                    if(this.soption==0){
+                        this.orderlist.all=data.data.records;
+                        this.orderall=data.data.total;
+                        this.dainum='';
+                        this.pingnum='';
+                    }
+                    if(this.soption==1){
+                        this.orderlist.dai=data.data.records;
+                    }
+                    if(this.soption==2){ this.orderlist.yi=data.data.records;}
+                    if(this.soption==3){ this.orderlist.ping=data.data.records;}
+                });
             }
         },
         computed:{
@@ -370,8 +422,16 @@
             }
         },
         created() {
-            // this.axios.defaults.headers.common["token"] = '1263553';
-            // this.axios.post('/system/user/profile/update',{ "user_id": 0,}).then((data)=>{
+          this. token=localStorage.getItem('token');
+           var data={
+                current:this.current,
+               size:this.size,
+                state:this. soption,
+                title:' ',
+                token:this.token
+            };
+            this.getList(data);
+            // this.axios.post('/system/user/edit',{ "user_id": 0,token:token}).then((data)=>{
             //     console.log(data)
             // })
         }
@@ -552,6 +612,7 @@
           }
           em{
             width: 93px;
+            text-align: center;
           }
           em.zuo{
             margin-left: 23px;
@@ -623,8 +684,12 @@
               color: #ff0000;
             }
             em{
+              text-align: center;
               width: 93px;
             }
+          }
+          li:last-child{
+            border-bottom: none;
           }
         }
       }

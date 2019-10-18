@@ -10,7 +10,7 @@
     </div>
     <div class="warp">
       <ul>
-        <li v-for="(item,idx) in list" :key="idx">
+        <li v-for="(item,idx) in list" :key="idx" @click="goInt(item.companyId)">
           <img :src="item.companyLogo" alt="">
           <div>
             <h2>{{item.companyName}}</h2>
@@ -76,7 +76,7 @@
                 currentPage:1,
                 pageTotal: '',//总的页数
                 pageConfig: {
-                    pageSize: 1,     //一页的数据条数
+                    pageSize: 7,     //一页的数据条数
                     total: '',         //总的数据条数
                 },
                 serch:{
@@ -148,6 +148,12 @@
                     this. pageConfig.total=data.data.total;
                     this.list=data.data.records;
                 })
+            },
+            //企业详情
+            goInt(i){
+                this.$router.push({path:'/Corporation/myspace',query:{
+                    id:i
+                    }})
             }
         }
     }
@@ -184,18 +190,21 @@
     width: 1200px;
     margin: 0 auto 20px auto;
     overflow: hidden;
-    padding-top: 21px;
+    margin-top: 21px;
+    height:1200px;
     position: relative;
+    border:1px solid rgba(230,230,230,1);
+    border-bottom: none;
     ul{
       padding-top: 17px;
-      height:1231px;
-      border:1px solid rgba(230,230,230,1);
+      padding-bottom: 110px;
       li{
         width: 1024px;
         margin-left: 20px;
         height: 100px;
         border-bottom: 1px dashed #e6e6e6;
         padding: 30px 0;
+        cursor: default;
         img{
           display: block;
           float: left;
@@ -237,6 +246,9 @@
 
           }
         }
+      }
+      li:last-child{
+        border-bottom: none;
       }
     }
   }

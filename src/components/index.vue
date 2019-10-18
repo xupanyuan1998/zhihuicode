@@ -231,8 +231,8 @@ export default {
       //获取本地储存的登录数据
        let status= localStorage.getItem('token');
        //获取缓存个人信息数据
-        let ge=localStorage.getItem('personal');
-        this.personal=JSON.parse(ge);
+       //  let ge=localStorage.getItem('personal');
+       //  this.personal=JSON.parse(ge);
         if(status==null){
             this.loginShow=0;
         }else{
@@ -282,6 +282,7 @@ export default {
         logout(){
             this.loginShow=0;
             localStorage.removeItem('token');
+            localStorage.removeItem('personal');
             window.location.reload();
         },
         //二维码登录

@@ -60,8 +60,8 @@
         },
         created() {
             var id=this.$route.query.id;
-            this.axios.post('/web/newnotice/news',{news_id:id}).then(({data})=>{
-                console.log(data);
+            this.axios.post('/web/newnotice/news',{newsId:id}).then(({data})=>{
+                // console.log(data);
                 this.content=data.data;
             })
         },
